@@ -15,6 +15,14 @@ class CheckModuleActive
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $user = $request->user();
+        $moduleId = $request->route('module_id');
+
+        if (!$user || !$user->user_modules()->where('module_id', $moduleId)->where('active', 1)->exists()) {
+            return response()->json([
+                'message' => 'Module inactive ou non attribué à l’utilisateur.'
+            ], 403);
+        }
         return $next($request);
     }
 }

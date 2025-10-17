@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_modules', function (Blueprint $table) {
+        Schema::create('short_links', function (Blueprint $table) {
             $table->id();
-            $table->boolean('active')->default(false);
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('module_id')->constrained('modules');
+            $table->string('original_url');
+            $table->string('custom_code')->unique();
             $table->timestamps();
-            $table->unique(['user_id', 'module_id']);
         });
     }
 
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_modules');
+        Schema::dropIfExists('short_links');
     }
 };

@@ -14,16 +14,18 @@ class User_module extends Model
 
     use HasFactory;
     protected $fillable = [
-        'active'
+        'user_id',
+        'module_id',
+        'active',
     ];
+
+    public function module()
+    {
+         return $this->belongsTo(Module::class, 'module_id');
+    }
 
     public function user()
     {
-        return $this->hasMany(Module::class);
-    }
-
-    public function user_module(): HasMany
-    {
-        return $this->hasMany(Module::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
